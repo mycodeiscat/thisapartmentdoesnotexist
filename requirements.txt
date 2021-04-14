@@ -1,3 +1,11 @@
 flask==1.1.2
 torch-utils==0.1.2
 torch==1.8.1
+torchvision==0.9.1
+boto3~=1.17.51
+botocore~=1.20.51
+tqdm~=4.60.0
+Pillow~=8.2.0
+requests~=2.25.1
+pandas~=1.2.4
+numpy~=1.20.2

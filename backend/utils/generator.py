@@ -3,10 +3,11 @@ import torch
 from .constants import LAST_GENERATOR
 import os
 import argparse
-from torchvision import utils
+from torchvision import utils, transforms
 from model.Generator import Generator
 from tqdm import tqdm
-
+from PIL import Image
+import io
 
 class Generate:
     def __init__(self):
@@ -15,6 +16,7 @@ class Generate:
     def _generate(self, args, g_ema, device, mean_latent):
         with torch.no_grad():
             g_ema.eval()
+            images = []
             for i in tqdm(range(args['pics'])):
                 sample_z = torch.randn(args['sample'], args['latent'], device=device)
                 sample, _ = g_ema(
@@ -22,12 +24,13 @@ class Generate:
                 )
                 utils.save_image(
                     sample,
-                    f"{str(i)}.png",
+                    f"{str(i)}.jpg",
                     nrow=1,
                     normalize=True,
                     range=(-1, 1),
                 )
-            return sample
+                images.append(f"{str(i)}.jpg")
+            return images
 
     def generate(self, args):
         # device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
